@@ -14,11 +14,20 @@ public class InfoBaseAdapter extends RecyclerView.Adapter<InfoBaseAdapter.MyView
     private List<Course> list;
     private Context context;
     private LayoutInflater layoutInflater;
+    private OnItemClickListener onItemClickListener;
 
     public InfoBaseAdapter( Context context,List<Course> list){
         this.list=list;
         this.context=context;
         layoutInflater=LayoutInflater.from(context);
+    }
+
+    public interface OnItemClickListener{
+        void onItemClick(View view,int position);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener){
+        this.onItemClickListener=onItemClickListener;
     }
 
     @Override
@@ -32,6 +41,17 @@ public class InfoBaseAdapter extends RecyclerView.Adapter<InfoBaseAdapter.MyView
         final Course user=list.get(position);
         holder.tvID.setText(user.getName());
         holder.tvName.setText(user.getCouch());
+        holder.PhoneNum.setText(user.getPhone());
+
+        if(onItemClickListener!=null){
+            holder.PhoneNum.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int pos=holder.getLayoutPosition();
+                    onItemClickListener.onItemClick(holder.itemView,pos);
+                }
+            });
+        }
     }
 
     @Override
@@ -41,14 +61,17 @@ public class InfoBaseAdapter extends RecyclerView.Adapter<InfoBaseAdapter.MyView
 
     public static class MyViewHolder extends RecyclerView.ViewHolder{
         ImageView image;
-        TextView tvID,tvName;
+        TextView tvID,tvName,PhoneNum;
         View itemView;
+        String number;
+
         public MyViewHolder(View view){
             super(view);
             itemView=view;
             image=(ImageView) itemView.findViewById(R.id.ivImage);
             tvID=(TextView) itemView.findViewById(R.id.tvId);
             tvName=(TextView) itemView.findViewById(R.id.tvName);
+            PhoneNum=(TextView) itemView.findViewById(R.id.PhoneNum);
         }
     }
 }
