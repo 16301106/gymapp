@@ -14,6 +14,7 @@ public class SecondFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState){
         View view=inflater.inflate(R.layout.second_fragment,container,false);
+
         Button course =(Button) view.findViewById(R.id.button_video);
         course.setOnClickListener(new Button.OnClickListener() {
             @Override

@@ -9,77 +9,63 @@ import android.view.View;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.List;
+
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
 
-public class VideoListAdapter extends BaseAdapter{
-    int[] VideoIndex = {0,1,2};
+public class VideoListAdapter extends BaseAdapter {
+    private List<VideoAll> list;
     Context context;
-    int mPager=-1;
-    VideoSource videoSource;
 
-    public VideoListAdapter(Context context){
-        this.context=context;
-        videoSource.loadData();
-    }
-
-    public VideoListAdapter(Context context,int pager){
-        this.context=context;
-        this.mPager=pager;
+    public VideoListAdapter(Context context, List<VideoAll> list) {
+        this.context = context;
+        this.list = list;
     }
 
     @Override
-    public int getCount(){
-        return mPager == -1? VideoIndex.length:3;
+    public int getCount() {
+        return list.size();
     }
 
     @Override
-    public Object getItem(int position){
+    public Object getItem(int position) {
         return null;
     }
 
     @Override
-    public long getItemId(int position){
+    public long getItemId(int position) {
         return position;
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent){
+    public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
-        if(null==convertView){
-            holder=new ViewHolder();
-            LayoutInflater layoutInflater=LayoutInflater.from(context);
-            convertView=layoutInflater.inflate(R.layout.item_listview,null);
+        if (null == convertView) {
+            holder = new ViewHolder();
+            LayoutInflater layoutInflater = LayoutInflater.from(context);
+            convertView = layoutInflater.inflate(R.layout.item_listview, null);
             convertView.setTag(holder);
-        }
-        else{
-            holder=(ViewHolder) convertView.getTag();
+        } else {
+            holder = (ViewHolder) convertView.getTag();
         }
 
-        holder.jcVideoPlayerStandard=(JCVideoPlayerStandard) convertView.findViewById(R.id.videoplayer);
-        if(mPager==-1){
-            holder.jcVideoPlayerStandard.setUp(
-                    videoSource.mVideoUrls[0][position],JCVideoPlayer.SCREEN_LAYOUT_LIST,
-                    videoSource.mVideoTitles[0][position]
-            );
-            Log.e("TAG","setUp"+position);
-            Picasso.with(convertView.getContext())
-                    .load(videoSource.mVideoThumbs[0][position])
-                    .into(holder.jcVideoPlayerStandard.thumbImageView);
-        }
-        else {
-            holder.jcVideoPlayerStandard.setUp(
-                    videoSource.mVideoUrls[mPager][position],JCVideoPlayer.SCREEN_LAYOUT_LIST,
-                    videoSource.mVideoTitles[mPager][position]
-            );
-            Picasso.with(convertView.getContext())
-                    .load(videoSource.mVideoThumbs[mPager][position])
-                    .into(holder.jcVideoPlayerStandard.thumbImageView);
-        }
+        holder.jcVideoPlayerStandard = (JCVideoPlayerStandard) convertView.findViewById(R.id.videoplayer);
+
+        holder.jcVideoPlayerStandard.setUp(
+                list.get(position).getVideo().getUrl(), JCVideoPlayer.SCREEN_LAYOUT_LIST,
+                list.get(position).getTitle()
+        );
+        Log.e("TAG", "setUp" + position);
+        Picasso.with(convertView.getContext())
+                .load(list.get(position).getCover().getUrl())
+                .into(holder.jcVideoPlayerStandard.thumbImageView);
+
+
         return convertView;
     }
 
-    class ViewHolder{
-         JCVideoPlayerStandard jcVideoPlayerStandard;
+    class ViewHolder {
+        JCVideoPlayerStandard jcVideoPlayerStandard;
     }
 }

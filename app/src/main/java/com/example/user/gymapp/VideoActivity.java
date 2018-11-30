@@ -8,12 +8,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.ListView;
 
+import java.util.List;
+
+import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.FindListener;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
 
 public class VideoActivity extends AppCompatActivity {
     private static final String TAG = "VideoActivity";
     private ListView listView;
-    private VideoListAdapter adapter;
     private SensorEventListener sensorEventListener;
     private SensorManager sensorManager;
 
@@ -22,8 +26,15 @@ public class VideoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video);
         listView = (ListView) findViewById(R.id.list_view);
-        adapter=new VideoListAdapter(this);
-        listView.setAdapter(adapter);
+        BmobQuery<VideoAll> query=new BmobQuery<VideoAll>();
+        query.findObjects(new FindListener<VideoAll>() {
+            @Override
+            public void done(List<VideoAll> list, BmobException e) {
+                if(e==null){
+                    listView.setAdapter(new VideoListAdapter(VideoActivity.this,list));
+                }
+            }
+        });
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         sensorEventListener = new JCVideoPlayer.JCAutoFullscreenListener();
     }
