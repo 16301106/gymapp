@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="1dp"
+        app:srcCompat="@mipmap/tu1" />
+
+    <ImageButton
+        android:id="@+id/imageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="80dp"
+        android:layout_marginTop="169dp"
+        app:srcCompat="@mipmap/tu2" />
+
+    <ImageButton
+        android:id="@+id/imageButton3"
+        android:layout_width="135dp"
+        android:layout_height="135dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="219dp"
+        app:srcCompat="@mipmap/my6" />
+
+    <ImageButton
+        android:id="@+id/imageButton4"
+        android:layout_width="135dp"
+        android:layout_height="135dp"
+        android:layout_marginLeft="200dp"
+        android:layout_marginTop="219dp"
+        app:srcCompat="@mipmap/my5" />
+
+    <ImageButton
+        android:id="@+id/imageButton5"
+        android:layout_width="135dp"
+        android:layout_height="135dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="376dp"
+        app:srcCompat="@mipmap/my4" />
+
+
+    <ImageButton
+        android:id="@+id/imageButton6"
+        android:layout_width="135dp"
+        android:layout_height="135dp"
+        android:layout_marginLeft="200dp"
+        android:layout_marginTop="376dp"
+        app:srcCompat="@mipmap/my3" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="50dp"
+        android:layout_height="24dp"
+        android:layout_marginLeft="70dp"
+        android:layout_marginTop="355dp"
+        android:text="民谣" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="50dp"
+        android:layout_height="24dp"
+        android:layout_marginLeft="250dp"
+        android:layout_marginTop="355dp"
+        android:text="摇滚" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="50dp"
+        android:layout_height="24dp"
+        android:layout_marginLeft="70dp"
+        android:layout_marginTop="512dp"
+        android:text="华语" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="50dp"
+        android:layout_height="24dp"
+        android:layout_marginLeft="250dp"
+        android:layout_marginTop="512dp"
+        android:text="日韩" />
+</FrameLayout>
+
+
+
+
+
+
+
+

@@ -1,0 +1,43 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+
+    package="ui">
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"></uses-permission>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <!-- 写文件权限 -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <!-- 读文件权限 -->
+    <application
+        android:name=".publicData"
+        android:allowBackup="true"
+        android:icon="@mipmap/timg1"
+        android:label="咕咚音乐"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:networkSecurityConfig="@xml/network_security_config"
+        android:theme="@style/AppTheme">
+
+
+        <activity android:name=".welcome">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".Activity1"></activity>
+        <activity android:name=".LoginActivity"></activity>
+        <activity android:name=".RegisterActivity"></activity>
+        <activity android:name=".DynamicActivity"></activity>
+        <activity android:name=".mainActivity"></activity>
+        <activity android:name=".foundLocalActivity"></activity>
+        <activity android:name=".seachActivity"></activity>
+        <service android:name="service.playMusicService"></service>
+        <activity android:name=".VideoActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="sensor"></activity>
+
+    </application>
+
+</manifest>
