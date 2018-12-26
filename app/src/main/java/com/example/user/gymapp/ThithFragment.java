@@ -21,9 +21,13 @@ public class ThithFragment extends Fragment{
         View view=inflater.inflate(R.layout.thith_fragment,container,false);
         BmobUser user=BmobUser.getCurrentUser();
         TextView name=(TextView) view.findViewById(R.id.my_name);
-        name.setText(user.getUsername());
+        if(user != null) {
+            name.setText(user.getUsername());
+        }
         TextView time=(TextView) view.findViewById(R.id.my_account);
-        time.setText(user.getCreatedAt());
+        if(user != null) {
+            time.setText(user.getCreatedAt());
+        }
         Button course=(Button) view.findViewById(R.id.button7);
         course.setOnClickListener(new Button.OnClickListener(){
             @Override
