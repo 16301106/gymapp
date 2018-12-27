@@ -47,6 +47,7 @@ public class MainActivity extends AppCompatActivity{
         password=(EditText) findViewById(R.id.editText2);
         BtLogin=(Button) findViewById(R.id.button);
         BtQQ=(Button) findViewById(R.id.buttonqq);
+        mTencent=Tencent.createInstance(APP_ID,getApplicationContext());
         BtLogin.setOnClickListener(new Button.OnClickListener(){
            @Override
            public void onClick(View v){
@@ -78,11 +79,8 @@ public class MainActivity extends AppCompatActivity{
         BtQQ.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mTencent=Tencent.createInstance(APP_ID,getApplicationContext());
                 if(!mTencent.isSessionValid()) {
                     mTencent.login(MainActivity.this, "all", loginListener);
-                    Intent intent=new Intent(MainActivity.this,ContentActivity.class);
-                    startActivity(intent);
                 }
             }
         });

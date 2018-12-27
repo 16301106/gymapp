@@ -1,6 +1,8 @@
 package com.example.user.gymapp;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,15 +45,19 @@ public class InfoBaseAdapter extends RecyclerView.Adapter<InfoBaseAdapter.MyView
         holder.tvName.setText(user.getCouch());
         holder.PhoneNum.setText(user.getPhone());
 
-        if(onItemClickListener!=null){
-            holder.PhoneNum.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int pos=holder.getLayoutPosition();
-                    onItemClickListener.onItemClick(holder.itemView,pos);
+        holder.PhoneNum.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    String phone=holder.PhoneNum.getText().toString();
+                    Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + phone));
+                    context.startActivity(intent);
+                }catch (SecurityException e){
+                    e.printStackTrace();
                 }
-            });
-        }
+
+            }
+        });
     }
 
     @Override

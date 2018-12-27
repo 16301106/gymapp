@@ -1,6 +1,8 @@
 package com.example.user.gymapp;
 
-public class Course {
+import cn.bmob.v3.BmobObject;
+
+public class Course extends BmobObject{
     private String name;
     private String couch;
     private String phone;
