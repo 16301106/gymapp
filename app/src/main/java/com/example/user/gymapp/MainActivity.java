@@ -1,9 +1,13 @@
 package com.example.user.gymapp;
 
+import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -22,6 +26,7 @@ import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.Tencent;
 import com.tencent.tauth.UiError;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity{
@@ -30,7 +35,8 @@ public class MainActivity extends AppCompatActivity{
     private Button BtLogin;
     private Button BtRegister;
     private Button BtQQ;
-    private Tencent mTencent;
+    private static Tencent mTencent;
+    private UserInfo mInfo;
     private String APP_ID="1107972357";
 
     @Override
@@ -88,9 +94,12 @@ public class MainActivity extends AppCompatActivity{
 
     IUiListener loginListener=new BaseUiListener(){
         @Override
-        protected void doComplete(JSONObject values){
+        public void doComplete(JSONObject values){
             Log.i("test",values.toString());
+            initOpenidAndToken(values);
+            updateUserInfo();
         }
+
     };
 
     private class BaseUiListener implements IUiListener{
@@ -106,6 +115,8 @@ public class MainActivity extends AppCompatActivity{
                 return;
             }
             Toast.makeText(MainActivity.this,"登录成功",Toast.LENGTH_LONG).show();
+            Intent intent=new Intent(MainActivity.this,ContentActivity.class);
+            startActivity(intent);
             doComplete((JSONObject)response);
         }
 
@@ -123,4 +134,61 @@ public class MainActivity extends AppCompatActivity{
             Toast.makeText(getApplicationContext(), "onCancel", Toast.LENGTH_SHORT).show();
         }
     }
+
+    @Override
+    protected void onActivityResult(int requestCode,int resultCode,Intent data){
+        if (requestCode == Constants.REQUEST_LOGIN ||
+                requestCode == Constants.REQUEST_APPBAR) {
+            Tencent.onActivityResultData(requestCode,resultCode,data,loginListener);
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    public static void initOpenidAndToken(JSONObject jsonObject) {
+        try {
+            String token = jsonObject.getString(Constants.PARAM_ACCESS_TOKEN);
+            String expires = jsonObject.getString(Constants.PARAM_EXPIRES_IN);
+            String openId = jsonObject.getString(Constants.PARAM_OPEN_ID);
+            if (!TextUtils.isEmpty(token) && !TextUtils.isEmpty(expires)
+                    && !TextUtils.isEmpty(openId)) {
+                mTencent.setAccessToken(token, expires);
+                mTencent.setOpenId(openId);
+            }
+        } catch(Exception e) {
+        }
+    }
+
+    private void updateUserInfo() {
+        if (mTencent != null && mTencent.isSessionValid()) {
+            IUiListener listener = new IUiListener() {
+                @Override
+                public void onError(UiError e) {
+                }
+                @Override
+                public void onComplete(final Object response) {
+                    Message msg = new Message();
+                    msg.obj = response;
+                    Log.i("tag", response.toString());
+                    msg.what = 0;
+                    mHandler.sendMessage(msg);
+                }
+                @Override
+                public void onCancel() {
+                }
+            };
+            mInfo = new UserInfo(this, mTencent.getQQToken());
+            mInfo.getUserInfo(listener);
+
+        }
+    }
+    Handler mHandler=new Handler(){
+        @Override
+        public void handleMessage(Message msg){
+            JSONObject response=(JSONObject) msg.obj;
+            if(response.has("nickname")){
+                Intent intent=new Intent(MainActivity.this,ContentActivity.class);
+                startActivity(intent);
+            }
+        }
+    };
 }
